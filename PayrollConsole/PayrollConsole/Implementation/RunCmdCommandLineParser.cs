@@ -100,6 +100,15 @@ namespace PayrollConsole.Implementation
                     return false;
                 }
 
+                foreach (CommandLineEnum param in Enum.GetValues(typeof(CommandLineEnum)))
+                {
+                    if (string.IsNullOrEmpty(getParameter(param)))
+                    {
+                        LogManager.Log("Missing parameter: " + param.ToString());
+                        return false;
+                    }
+                }
+
                 return true;
             }
             catch(Exception ex)

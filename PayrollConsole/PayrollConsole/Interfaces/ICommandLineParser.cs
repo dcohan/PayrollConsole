@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PayrollConsole.Interfaces
 {
-    interface ICommandLineParser
+    public interface ICommandLineParser
     {
         bool validate(string[] args);
 
