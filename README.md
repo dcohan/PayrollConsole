@@ -2,14 +2,14 @@
 This tool is a usefull tool to calculate the payroll slip for many employees by having just a few parameters.
 
 #Features
-- *Multiples format files*: JSON and CSV are allowed, 
+- **Multiples format files**: JSON and CSV are allowed, 
 but everything loaded in the application domain which implements IFormater interface could be used instead
-- *Dynamic Formulas*: you could update or modify the formulas due to new goverment tax formula
-- *Multithreading*: not worry about having lots of records, you could increase the amount of running thread to make the process run faster.
-- *Injection Dependency*: everything is replaceable, you don't need to worry about changing some tool, just implement the desired tool 
+- **Dynamic Formulas**: you could update or modify the formulas due to new goverment tax formula
+- **Multithreading**: not worry about having lots of records, you could increase the amount of running thread to make the process run faster.
+- **Injection Dependency**: everything is replaceable, you don't need to worry about changing some tool, just implement the desired tool 
 
 #Run the application
-*Usage*:
+**Usage**:
 ```
 	Data\PayrollConsole.exe -i input.csv -if csv -o output.csv -of csv -t taxrates.csv -tf csv
 
@@ -22,34 +22,34 @@ but everything loaded in the application domain which implements IFormater inter
 		-t Tax File Path
 		-tf Tax File Format: currently supported json or csv
 ```
-*Settings*:
-The settings files are inside the file *PayrollConsole.exe.config*
-*Keys*:
-- *ThreadCount*: amount of thread that would run in parallel mode
-- *GrossIncomeFormula*: formula used to calculate the monthly gross salary
-- *IncomeTaxFormula*: formula used to calculate the monthly income tax
-- *NetIncomeFormula*: formula used to calculate how much the employee will earn in hand
-- *SuperFormula*: formula to determine the super on a monthly basis
+**Settings**:
+The settings files are inside the file **PayrollConsole.exe.config**
+**Keys**:
+- **ThreadCount**: amount of thread that would run in parallel mode
+- **GrossIncomeFormula**: formula used to calculate the monthly gross salary
+- **IncomeTaxFormula**: formula used to calculate the monthly income tax
+- **NetIncomeFormula**: formula used to calculate how much the employee will earn in hand
+- **SuperFormula**: formula to determine the super on a monthly basis
 
-*Formula Parameters*: you could use the input and tax files to execute the formula, every field of this input files could be overriten in the formula by closing them between [], example: *[AnnualIncome]* (nevermind uppper or lower case, the application is case insentitive)
+**Formula Parameters**: you could use the input and tax files to execute the formula, every field of this input files could be overriten in the formula by closing them between [], example: **[AnnualIncome]** (nevermind uppper or lower case, the application is case insentitive)
 
 #Develop the application
 If you want to contribute, this is the general architechture of the application:
 
 The application uses AutoFac Injection Dependency Container, so you don't need to worry about resolving anything from your code, just use as much Interfaces as 
-tools do you need and then register it into *Configuration.cs*. 
+tools do you need and then register it into **Configuration.cs**. 
 
-*Interfaces*: every interface is inside this folder, consider use an interface before making any class, so you could always use the container to get the intance of the class. Don't worry about building instances, Autofac will inject all dependency (just make sure to register everything you need before instance anything).
+- **Interfaces**: every interface is inside this folder, consider use an interface before making any class, so you could always use the container to get the intance of the class. Don't worry about building instances, Autofac will inject all dependency (just make sure to register everything you need before instance anything).
 
-*Implementation*: then you could go ahead and implement any of the interfaces that you made in the previous step. Note that you don't need to share everything not related with your application inside, just use your interface wrapping, then when a tool need to be changed, just implement another tool with the same interfacce and voila!
+- **Implementation**: then you could go ahead and implement any of the interfaces that you made in the previous step. Note that you don't need to share everything not related with your application inside, just use your interface wrapping, then when a tool need to be changed, just implement another tool with the same interfacce and voila!
 
-*Entities*: every exchange DTO should be an entity to be better understanding of the code.
+- **Entities**: every exchange DTO should be an entity to be better understanding of the code.
 
-*Commnand Line Parser*: there is a command line parser to avoid making difficult to parse the input, just add those parameters that you need in the *Configuration.cs*
+- **Commnand Line Parser**: there is a command line parser to avoid making difficult to parse the input, just add those parameters that you need in the **Configuration.cs**
 
-*Nuget Package Manager*: for those who are familiar with this kind of tools such as npm or maven, for .NET nuget is the default package manager, so you just need to restore the dependencies using nuget.
+- **Nuget Package Manager**: for those who are familiar with this kind of tools such as npm or maven, for .NET nuget is the default package manager, so you just need to restore the dependencies using nuget.
 
-*Formater*: the solution is intented to be able to have another formatter just by copping the new assembly into the folder, you just need to implement the interface *IFormatHelper* and put your compiled DLL inside the folder, and you are ready to use this new formatter (BETA TESTING!)
+- 	**Formater**: the solution is intented to be able to have another formatter just by copping the new assembly into the folder, you just need to implement the interface **IFormatHelper** and put your compiled DLL inside the folder, and you are ready to use this new formatter (BETA TESTING!)
 
 
 #Assumptions
