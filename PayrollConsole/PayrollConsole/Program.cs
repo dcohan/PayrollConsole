@@ -16,16 +16,20 @@ namespace PayrollConsole
 
             //Retrieve Parser
             var parser = Configurator.getImplementation<ICommandLineParser>();
-            parser.setParameters(args);
+            parser.setParameters();
 
-            //Retrieve & Execute Process
-            var process = Configurator.getImplementation<IProcess>();
-            process.Execute(parser.getParameter(CommandLineEnum.InputFormatFile),
-                            parser.getParameter(CommandLineEnum.OutputFormatFile),
-                            parser.getParameter(CommandLineEnum.TaxFileFormat),
-                            parser.getParameter(CommandLineEnum.InputFile),
-                            parser.getParameter(CommandLineEnum.OutputFile),
-                            parser.getParameter(CommandLineEnum.TaxFile));
+            if (parser.validate(args))
+
+            {
+                //Retrieve & Execute Process
+                var process = Configurator.getImplementation<IProcess>();
+                process.Execute(parser.getParameter(CommandLineEnum.InputFormatFile),
+                                parser.getParameter(CommandLineEnum.OutputFormatFile),
+                                parser.getParameter(CommandLineEnum.TaxFileFormat),
+                                parser.getParameter(CommandLineEnum.InputFile),
+                                parser.getParameter(CommandLineEnum.OutputFile),
+                                parser.getParameter(CommandLineEnum.TaxFile));
+            }
         }
     }
 }

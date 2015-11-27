@@ -9,9 +9,9 @@ namespace PayrollConsole.Interfaces
 {
     interface ICommandLineParser
     {
-        void validate();
+        bool validate(string[] args);
 
-        void setParameters(string []args);
+        void setParameters();
         string getParameter(CommandLineEnum parameter);
     }
 }

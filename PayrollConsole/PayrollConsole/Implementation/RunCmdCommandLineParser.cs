@@ -14,37 +14,40 @@ namespace PayrollConsole.Implementation
         /// <summary>
         /// Engine to process the parameters
         /// </summary>
-        private ArgumentParser parser;
+        private ArgumentParser Parser;
 
         /// <summary>
         /// Path to the input file
         /// </summary>
-        private StringArgument inputFileArgument = new StringArgument(CommandLineEnum.InputFile.ToString(), "Path to the input file", "Path to the input file, could be relative or absolute.");
+        private StringArgument InputFileArgument = new StringArgument(CommandLineEnum.InputFile.ToString(), "Path to the input file", "Path to the input file, could be relative or absolute.");
         /// <summary>
         /// File Input format
         /// </summary>
-        private StringArgument formatInputFile = new StringArgument(CommandLineEnum.InputFormatFile.ToString(), "File format to process the input", "File format to process the input. Could be CSV or JSON");
+        private StringArgument FormatInputFile = new StringArgument(CommandLineEnum.InputFormatFile.ToString(), "File format to process the input", "File format to process the input. Could be CSV or JSON");
 
         /// <summary>
         /// Path to the output file
         /// </summary>
-        private StringArgument outputFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the output file", "Path to the output file, could be relative or absolute.");
+        private StringArgument OutputFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the output file", "Path to the output file, could be relative or absolute.");
         /// <summary>
         /// File Output format
         /// </summary>
-        private StringArgument formatOutputFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to generate the output", "File format to generate the output. Could be CSV or JSON");
+        private StringArgument FormatOutputFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to generate the output", "File format to generate the output. Could be CSV or JSON");
         /// <summary>
         /// Tax file with the detail income scale rates
         /// </summary>
-        private StringArgument taxFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the Tax file", "Path to the tax file, could be relative or absolute.");
+        private StringArgument TaxFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the Tax file", "Path to the tax file, could be relative or absolute.");
         /// <summary>
         /// Tax file format
         /// </summary>
-        private StringArgument formatTaxFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to read the tax table", "File format to read the tax table. Could be CSV or JSON");
+        private StringArgument FormatTaxFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to read the tax table", "File format to read the tax table. Could be CSV or JSON");
 
-        public RunCmdCommandLineParser()
+        private ILogger LogManager { get; set; }
+
+        public RunCmdCommandLineParser(ILogger logManager)
         {
-            parser = new ArgumentParser("payroll", "Path to the input file");
+            Parser = new ArgumentParser("payroll", "Path to the input file");
+            LogManager = logManager;
         }
 
         public string getParameter(CommandLineEnum parameter)
@@ -52,43 +55,58 @@ namespace PayrollConsole.Implementation
             switch(parameter)
             {
                 case CommandLineEnum.InputFile:
-                    return inputFileArgument.Value;
+                    return InputFileArgument.Value;
                 case CommandLineEnum.InputFormatFile:
-                    return formatInputFile.Value;
+                    return FormatInputFile.Value;
                 case CommandLineEnum.OutputFile:
-                    return outputFileArgument.Value;
+                    return OutputFileArgument.Value;
                 case CommandLineEnum.OutputFormatFile:
-                    return formatOutputFile.Value;
+                    return FormatOutputFile.Value;
                 case CommandLineEnum.TaxFile:
-                    return taxFileArgument.Value;
+                    return TaxFileArgument.Value;
                 case CommandLineEnum.TaxFileFormat:
-                    return formatTaxFile.Value;
+                    return FormatTaxFile.Value;
             }
 
             throw new NotImplementedException();
         }
 
-        public void setParameters(string[] args)
+        public void setParameters()
         {
-            parser.Add("-", "i", "i", inputFileArgument);
-            parser.Add("-", "o", "o", outputFileArgument);
-            parser.Add("-", "t", "t", taxFileArgument);
-            parser.Add("-", "if", "if", formatInputFile);
-            parser.Add("-", "of", "of", formatOutputFile);
-            parser.Add("-", "tf", "tf", formatTaxFile);
+            Parser.Add("-", "i", "i", InputFileArgument);
+            Parser.Add("-", "o", "o", OutputFileArgument);
+            Parser.Add("-", "t", "t", TaxFileArgument);
+            Parser.Add("-", "if", "if", FormatInputFile);
+            Parser.Add("-", "of", "of", FormatOutputFile);
+            Parser.Add("-", "tf", "tf", FormatTaxFile);
 
-            // parse arguemnts
-            parser.Parse(args);
 
-            parser.AboutText = "Payroll calculator is a tool to easy calculate your payroll!\\n If you have a custom provider, please attach your assembly with the implementataion of IFormatHelper, the program will load it automatically";
-            parser.CreditsText = "David Cohan";
-            parser.UsageText = "payrollConsole -i /path/to/input/file -o /path/to/output/file -if CSV - of JSON";
+
+            Parser.AboutText = "Payroll calculator is a tool to easy calculate your payroll!\\n If you have a custom provider, please attach your assembly with the implementataion of IFormatHelper, the program will load it automatically";
+            Parser.CreditsText = "David Cohan";
+            Parser.UsageText = "payrollConsole -i /path/to/input/file -o /path/to/output/file -if CSV - of JSON";
 
         }
 
-        public void validate()
+        public bool validate(string []args)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // parse arguemnts
+                Parser.Parse(args);
+
+                if (Parser.HelpMode)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch(Exception ex)
+            {
+                LogManager.Log(ex, "An Error ocurred with the parameters");
+                return false;
+            }
         }
     }
 }

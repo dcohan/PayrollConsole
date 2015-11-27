@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace PayrollConsole
 {
-    class Configurator
+    public class Configurator
     {
         private static IContainer Container { get; set; }
 
