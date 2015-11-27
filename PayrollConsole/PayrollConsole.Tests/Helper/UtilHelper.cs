@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PayrollConsole.Tests.Helper
 {
-    class FileHelper
+    public class UtilHelper
     {
         public static string generateCsvFile(int rowCount)
         {
@@ -27,6 +27,19 @@ namespace PayrollConsole.Tests.Helper
 
         public static string generateJsonFile(int rowCount)
         {
+            var list = getInputList(rowCount);
+
+            var fileName = Path.GetTempFileName();
+            using (var fileWriter = File.CreateText(fileName))
+            {
+                fileWriter.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(list));
+            }
+
+            return fileName;
+        }
+
+        public static List<InputFileParameter> getInputList(int rowCount)
+        {
             List<InputFileParameter> list = new List<InputFileParameter>();
             for (int i = 0; i < rowCount; i++)
             {
@@ -40,13 +53,7 @@ namespace PayrollConsole.Tests.Helper
                 });
             }
 
-            var fileName = Path.GetTempFileName();
-            using (var fileWriter = File.CreateText(fileName))
-            {
-                fileWriter.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(list));
-            }
-
-            return fileName;
+            return list;
         }
     }
 }

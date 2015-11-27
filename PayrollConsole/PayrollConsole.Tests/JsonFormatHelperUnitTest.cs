@@ -35,7 +35,7 @@ namespace PayrollConsole.Tests
             try
             {
                 var rows = 50;
-                var fileName = FileHelper.generateJsonFile(rows);
+                var fileName = UtilHelper.generateJsonFile(rows);
                 IFormatHelper formatter = new JsonFormatHelper();
                 var records = formatter.LoadFile<InputFileParameter>(fileName);
                 Assert.IsTrue(records.Count() == 50);

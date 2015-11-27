@@ -35,7 +35,7 @@ namespace PayrollConsole.Tests
             try
             {
                 var rowCount = 50;
-                var fileName = FileHelper.generateCsvFile(rowCount);
+                var fileName = UtilHelper.generateCsvFile(rowCount);
                 IFormatHelper formatter = new CsvFormatHelper();
                 var records = formatter.LoadFile<InputFileParameter>(fileName);
                 Assert.IsTrue(records.Count() == rowCount);

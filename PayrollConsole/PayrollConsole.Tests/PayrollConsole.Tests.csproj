@@ -68,13 +68,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="MainProcessTest.cs" />
     <Compile Include="RunCmdCommandLineParserTest.cs" />
     <Compile Include="NCalcFormulaTest.cs" />
     <Compile Include="ContainerTest.cs" />
     <Compile Include="ConsoleLogTest.cs" />
     <Compile Include="JsonFormatHelperUnitTest.cs" />
     <Compile Include="CsvFormatHelperUnitTest.cs" />
-    <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\UtilHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

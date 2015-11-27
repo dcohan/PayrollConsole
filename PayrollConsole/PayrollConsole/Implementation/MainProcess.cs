@@ -19,7 +19,7 @@ namespace PayrollConsole.Implementation
             LogManager = logManager;
         }
 
-        public void Execute(string inputFormat, string outputFormat, string taxFormat, string inputFile, string outputFile, string taxFile)
+        public bool Execute(string inputFormat, string outputFormat, string taxFormat, string inputFile, string outputFile, string taxFile)
         {
             try
             {
@@ -27,21 +27,21 @@ namespace PayrollConsole.Implementation
                 if (inputFormatter == null)
                 {
                     LogManager.Log("Invalid input formatter");
-                    return;
+                    return false;
                 }
 
                 IFormatHelper outputFormatter = Formatters.Where(f => f.getAlias().ToLowerInvariant().Equals(outputFormat.ToLowerInvariant())).FirstOrDefault();
                 if (outputFormatter == null)
                 {
                     LogManager.Log("Invalid output formatter");
-                    return;
+                    return false;
                 }
 
                 IFormatHelper taxFormatter = Formatters.Where(f => f.getAlias().ToLowerInvariant().Equals(taxFormat.ToLowerInvariant())).FirstOrDefault();
                 if (outputFormatter == null)
                 {
                     LogManager.Log("Invalid tax formatter");
-                    return;
+                    return false;
                 }
 
                 //Load tax table
@@ -94,10 +94,12 @@ namespace PayrollConsole.Implementation
 
 
                 outputFormatter.WriteOutputFile<OutputFileParameter>(outputRecords, outputFile);
+                return true;
             }
             catch(Exception ex)
             {
                 LogManager.Log(ex, "An error occured procesing the input");
+                return false;
             }
         }
     }

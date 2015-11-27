@@ -9,6 +9,6 @@ namespace PayrollConsole.Interfaces
 {
     public interface IProcess
     {
-        void Execute(string inputFormat, string outputFormat, string taxFormat, string inputFile, string outputFile, string taxFile);
+        bool Execute(string inputFormat, string outputFormat, string taxFormat, string inputFile, string outputFile, string taxFile);
     }
 }
