@@ -10,9 +10,20 @@ using PayrollConsole.Tests.Helper;
 
 namespace PayrollConsole.Tests
 {
+
     [TestClass]
     public class CsvFormatHelperUnitTest
     {
+        public IEnumerable<InputFileParameter> LoadInput()
+        {
+            var rowCount = 50;
+            var fileName = UtilHelper.generateCsvFile(rowCount);
+            IFormatHelper formatter = new CsvFormatHelper();
+            var records = formatter.LoadFile<InputFileParameter>(fileName);
+            return records;
+        }
+
+
         [TestMethod]
         public void UT_GetAlias()
         {
@@ -30,21 +41,17 @@ namespace PayrollConsole.Tests
         }
 
         [TestMethod]
-        public IEnumerable<InputFileParameter> UT_LoadInput()
+        public void UT_LoadInput()
         {
             try
             {
                 var rowCount = 50;
-                var fileName = UtilHelper.generateCsvFile(rowCount);
-                IFormatHelper formatter = new CsvFormatHelper();
-                var records = formatter.LoadFile<InputFileParameter>(fileName);
+                var records = LoadInput();
                 Assert.IsTrue(records.Count() == rowCount);
-                return records;
             }
             catch
             {
-                Assert.IsTrue(false);
-                return null;
+                Assert.IsTrue(false);   
             }
         }
 
@@ -53,7 +60,7 @@ namespace PayrollConsole.Tests
         {
             try
             {
-                var records = UT_LoadInput();
+                var records = LoadInput();
                 Assert.IsNotNull(records);
 
                 var outputFile = Path.GetTempFileName();

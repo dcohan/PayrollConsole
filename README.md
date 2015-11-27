@@ -44,6 +44,10 @@ If you want to contribute, this is the general architechture of the application:
 The application uses AutoFac Injection Dependency Container, so you don't need to worry about resolving anything from your code, just use as much Interfaces as 
 tools do you need and then register it into **Configuration.cs**. 
 
+- **Tool**: This is made with **Visual Studio 2015 Enterprise** with **Microsoft .NET 4.6**, you will need to install this in order to open the application in 
+developer mode. Otherwise you just need the Framework, and install **MsTest** and **MSBuild Tools** to make a build and perform test execution. Please find the command line script named **buildAndExecuteTests.cmd** to build and run tests (the tools must exist and be configured in the same path than my installation).
+
+
 - **Interfaces**: every interface is inside this folder, consider use an interface before making any class, so you could always use the container to get the intance of the class. Don't worry about building instances, Autofac will inject all dependency (just make sure to register everything you need before instance anything).
 
 - **Implementation**: then you could go ahead and implement any of the interfaces that you made in the previous step. Note that you don't need to share everything not related with your application inside, just use your interface wrapping, then when a tool need to be changed, just implement another tool with the same interfacce and voila!

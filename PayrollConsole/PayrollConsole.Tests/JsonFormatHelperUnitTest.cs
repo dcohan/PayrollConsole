@@ -10,9 +10,19 @@ using PayrollConsole.Tests.Helper;
 
 namespace PayrollConsole.Tests
 {
+  
     [TestClass]
     public class JsonFormatHelperUnitTest
     {
+        public IEnumerable<InputFileParameter> LoadInput()
+        {
+            var rows = 50;
+            var fileName = UtilHelper.generateJsonFile(rows);
+            IFormatHelper formatter = new JsonFormatHelper();
+            var records = formatter.LoadFile<InputFileParameter>(fileName);
+            return records;
+        }
+
         [TestMethod]
         public void UT_GetAlias()
         {
@@ -30,21 +40,16 @@ namespace PayrollConsole.Tests
         }
 
         [TestMethod]
-        public IEnumerable<InputFileParameter> UT_LoadInput()
+        public void UT_LoadInput()
         {
             try
             {
-                var rows = 50;
-                var fileName = UtilHelper.generateJsonFile(rows);
-                IFormatHelper formatter = new JsonFormatHelper();
-                var records = formatter.LoadFile<InputFileParameter>(fileName);
+                var records = LoadInput();
                 Assert.IsTrue(records.Count() == 50);
-                return records;
             }
-            catch(Exception ex)
+            catch
             {
                 Assert.IsTrue(false);
-                return null;
             }
         }
 
@@ -53,7 +58,7 @@ namespace PayrollConsole.Tests
         {
             try
             {
-                var records = UT_LoadInput();
+                var records = LoadInput();
                 Assert.IsNotNull(records);
 
                 var outputFile = Path.GetTempFileName();
