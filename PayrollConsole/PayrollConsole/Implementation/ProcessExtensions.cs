@@ -32,10 +32,9 @@ namespace PayrollConsole.Implementation
             {
                 finalFormula = finalFormula.Replace(string.Format("[{0}]", propName.Name.ToLowerInvariant()), propName.GetValue(rate).ToString());
             }
-            
 
-            Expression e = new Expression(finalFormula);
-            var returnValue = Convert.ToInt32(e.Evaluate());
+            var formularParser = Configurator.getImplementation<IFormulaParser>();
+            var returnValue = Convert.ToInt32(formularParser.Evaluate(finalFormula));
             return returnValue;
         }
     }

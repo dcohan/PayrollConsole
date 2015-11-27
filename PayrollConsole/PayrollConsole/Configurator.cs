@@ -27,6 +27,12 @@ namespace PayrollConsole
             //Register command line parser
             builder.RegisterType<RunCmdCommandLineParser>().As<ICommandLineParser>();
 
+            //Register Logging
+            builder.RegisterType<ConsoleLogger>().As<ILogger>();
+
+            //Register Formula Parser
+            builder.RegisterType<NCalcFormulaParser>().As<IFormulaParser>();
+
             //Register all parsers!
             var type = typeof(IFormatHelper);
             foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())

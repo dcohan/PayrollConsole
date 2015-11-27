@@ -72,13 +72,17 @@
     <Compile Include="Entities\OutputFileParameter.cs" />
     <Compile Include="Entities\InputFileParameter.cs" />
     <Compile Include="Entities\TaxRateParameter.cs" />
+    <Compile Include="Implementation\ConsoleLogger.cs" />
     <Compile Include="Implementation\CsvFormatHelper.cs" />
     <Compile Include="Implementation\JsonFormatHelper.cs" />
     <Compile Include="Implementation\MainProcess.cs" />
+    <Compile Include="Implementation\NCalcFormulaParser.cs" />
     <Compile Include="Implementation\ProcessExtensions.cs" />
     <Compile Include="Implementation\RunCmdCommandLineParser.cs" />
     <Compile Include="Interfaces\ICommandLineParser.cs" />
     <Compile Include="Interfaces\IFormatHelper.cs" />
+    <Compile Include="Interfaces\IFormulaParser.cs" />
+    <Compile Include="Interfaces\ILogger.cs" />
     <Compile Include="Interfaces\IProcess.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
