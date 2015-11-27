@@ -7,7 +7,7 @@ namespace PayrollConsole.Tests
     public class ArgumentValidator
     {
         [TestMethod]
-        public void DT_ValidateHelp()
+        public void UT_ValidateHelp()
         {
         }
     }

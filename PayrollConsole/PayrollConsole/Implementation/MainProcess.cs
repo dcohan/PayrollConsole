@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using PayrollConsole.Entities;
 using System.Configuration;
-using NCalc;
 
 namespace PayrollConsole.Implementation
 {
