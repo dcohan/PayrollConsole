@@ -22,11 +22,11 @@ namespace PayrollConsole.Implementation
             return "json";
         }
 
-        public IEnumerable<InputFileParameter> LoadFile(string inputFile)
+        public IEnumerable<T> LoadFile<T>(string inputFile)
         {
             using (var fileReader = File.OpenText(inputFile))
             {
-                return JsonConvert.DeserializeObject<IEnumerable<InputFileParameter>>(fileReader.ReadToEnd());
+                return JsonConvert.DeserializeObject<IEnumerable<T>>(fileReader.ReadToEnd());
             }
         }
 

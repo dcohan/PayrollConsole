@@ -10,5 +10,11 @@ namespace PayrollConsole.Entities
     {
         public string Name { get; set; }
         public string LastName { get; set; }
+
+        public double AnnualIncome { get; set; }
+
+        public double Super { get; set; }
+
+        public string Month { get; set; }
     }
 }

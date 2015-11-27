@@ -17,13 +17,13 @@ namespace PayrollConsole.Implementation
             return "csv";
         }
 
-        public IEnumerable<InputFileParameter> LoadFile(string inputFile)
+        public IEnumerable<T> LoadFile<T>(string inputFile)
         {
-            IEnumerable<InputFileParameter> records;
+            IEnumerable<T> records;
             using (var fileReader = File.OpenText(inputFile))
             {
                 CsvHelper.CsvReader r = new CsvHelper.CsvReader(fileReader);
-                records = r.GetRecords<InputFileParameter>().ToList();
+                records = r.GetRecords<T>().ToList();
             }
 
             return records;

@@ -10,5 +10,12 @@ namespace PayrollConsole.Entities
     {
         public string Name { get; set; }
         public string LastName { get; set; }
+
+        public string Month { get; set; }
+
+        public int GrossIncomeFormula { get; set; }
+        public int IncomeTaxFormula { get; set; }
+        public int NetIncomeFormula { get; set; }
+        public int SuperFormula { get; set; }
     }
 }

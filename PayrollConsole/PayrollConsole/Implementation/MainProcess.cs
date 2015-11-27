@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PayrollConsole.Entities;
+using System.Configuration;
+using NCalc;
 
 namespace PayrollConsole.Implementation
 {
@@ -17,7 +19,7 @@ namespace PayrollConsole.Implementation
             Formatters = formatters;
         }
 
-        public void Execute(string inputFormat, string outputFormat, string inputFile, string outputFile)
+        public void Execute(string inputFormat, string outputFormat, string taxFormat, string inputFile, string outputFile, string taxFile)
         {
             IFormatHelper inputFormatter = Formatters.Where(f => f.getAlias().ToLowerInvariant().Equals(inputFormat.ToLowerInvariant())).FirstOrDefault();
             if (inputFormatter == null)
@@ -33,13 +35,29 @@ namespace PayrollConsole.Implementation
                 return;
             }
 
-            var inputRecords = inputFormatter.LoadFile(inputFile);
+            IFormatHelper taxFormatter = Formatters.Where(f => f.getAlias().ToLowerInvariant().Equals(taxFormat.ToLowerInvariant())).FirstOrDefault();
+            if (outputFormatter == null)
+            {
+                Console.WriteLine("Invalid tax formatter");
+                return;
+            }
+
+            //Load tax table
+            var taxTable = taxFormatter.LoadFile<TaxRateParameter>(taxFile);
+
+            //Load input records
+            var inputRecords = inputFormatter.LoadFile<InputFileParameter>(inputFile);
             var totalRecords = inputRecords.Count();
-            var batchSize = 50;
+            var batchSize = Convert.ToInt32(ConfigurationManager.AppSettings.Get("ThreadCount").ToLowerInvariant());
             Console.WriteLine(string.Format( "About to process {0} records in {1} threads.", totalRecords, batchSize));
 
             //Parallel execution into threads
-            List<OutputFileParameter> outputRecords = new List<OutputFileParameter>();
+            var grossIncomeFormula = ConfigurationManager.AppSettings.Get("GrossIncomeFormula" ).ToLowerInvariant();
+            var incomeTaxFormula = ConfigurationManager.AppSettings.Get("IncomeTaxFormula").ToLowerInvariant();
+            var netIncomeFormula = ConfigurationManager.AppSettings.Get("NetIncomeFormula").ToLowerInvariant();
+            var superFormula = ConfigurationManager.AppSettings.Get("SuperFormula" ).ToLowerInvariant();
+
+            List <OutputFileParameter> outputRecords = new List<OutputFileParameter>();
             var batches = this.Split<InputFileParameter>(inputRecords, batchSize);
             Parallel.ForEach<IEnumerable<InputFileParameter>>(batches, (batch) =>
             {
@@ -47,13 +65,26 @@ namespace PayrollConsole.Implementation
                 {
                     foreach (var record in batch)
                     {
+                        var taxIncomeSelected = taxTable.Where(t => record.AnnualIncome >= t.BaseIncome && record.AnnualIncome <= t.TopIncome).FirstOrDefault();
                         if (record != null)
                         {
                             outputRecords.Add(new OutputFileParameter()
                             {
                                 LastName = record.LastName,
-                                Name = record.Name
+                                Name = record.Name,
+                                Month = record.Month,
+                                GrossIncomeFormula = record.EvaulateFormula(grossIncomeFormula, taxIncomeSelected),
+                                IncomeTaxFormula = record.EvaulateFormula(incomeTaxFormula, taxIncomeSelected),
+                                NetIncomeFormula = record.EvaulateFormula(netIncomeFormula, taxIncomeSelected),
+                                SuperFormula  = record.EvaulateFormula(superFormula, taxIncomeSelected)
                             });
+
+                            //Log  every 50 records processed   
+                            var processedRecords = outputRecords.Count();
+                            if (processedRecords > 50 && processedRecords % 50 == 0)
+                            {
+                                Console.WriteLine(string.Format("Processed {0} records", processedRecords));
+                            }
                         }
                     }
                 }

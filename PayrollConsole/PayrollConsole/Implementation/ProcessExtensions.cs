@@ -1,4 +1,6 @@
-﻿using PayrollConsole.Interfaces;
+﻿using NCalc;
+using PayrollConsole.Entities;
+using PayrollConsole.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,25 @@ namespace PayrollConsole.Implementation
                          group item by i++ % parts into part
                          select part.AsEnumerable();
             return splits;
+        }
+
+        public static int EvaulateFormula(this InputFileParameter p, string formula, TaxRateParameter rate)
+        {
+            var finalFormula = formula;
+            foreach (var propName in typeof(InputFileParameter).GetProperties())
+            {
+                finalFormula = finalFormula.Replace(string.Format("[{0}]", propName.Name.ToLowerInvariant()), propName.GetValue(p).ToString());
+            }
+
+            foreach (var propName in typeof(TaxRateParameter).GetProperties())
+            {
+                finalFormula = finalFormula.Replace(string.Format("[{0}]", propName.Name.ToLowerInvariant()), propName.GetValue(rate).ToString());
+            }
+            
+
+            Expression e = new Expression(finalFormula);
+            var returnValue = Convert.ToInt32(e.Evaluate());
+            return returnValue;
         }
     }
 }

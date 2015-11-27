@@ -9,7 +9,7 @@ namespace PayrollConsole.Interfaces
 {
     public interface IFormatHelper
     {
-        IEnumerable<InputFileParameter> LoadFile(string inputFile);
+        IEnumerable<T> LoadFile<T>(string inputFile);
 
         void WriteOutputFile<T>(IEnumerable<T> records, string outputFile);
 

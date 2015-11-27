@@ -22,8 +22,10 @@ namespace PayrollConsole
             var process = Configurator.getImplementation<IProcess>();
             process.Execute(parser.getParameter(CommandLineEnum.InputFormatFile),
                             parser.getParameter(CommandLineEnum.OutputFormatFile),
+                            parser.getParameter(CommandLineEnum.TaxFileFormat),
                             parser.getParameter(CommandLineEnum.InputFile),
-                            parser.getParameter(CommandLineEnum.OutputFile));
+                            parser.getParameter(CommandLineEnum.OutputFile),
+                            parser.getParameter(CommandLineEnum.TaxFile));
         }
     }
 }

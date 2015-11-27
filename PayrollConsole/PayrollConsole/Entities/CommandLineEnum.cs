@@ -10,7 +10,9 @@ namespace PayrollConsole.Entities
     {
        InputFile,
        OutputFile,
+       TaxFile,
        InputFormatFile,
-       OutputFormatFile 
+       OutputFormatFile,
+       TaxFileFormat 
     }
 }

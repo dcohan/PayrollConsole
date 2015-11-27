@@ -33,7 +33,14 @@ namespace PayrollConsole.Implementation
         /// File Output format
         /// </summary>
         private StringArgument formatOutputFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to generate the output", "File format to generate the output. Could be CSV or JSON");
-
+        /// <summary>
+        /// Tax file with the detail income scale rates
+        /// </summary>
+        private StringArgument taxFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the Tax file", "Path to the tax file, could be relative or absolute.");
+        /// <summary>
+        /// Tax file format
+        /// </summary>
+        private StringArgument formatTaxFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to read the tax table", "File format to read the tax table. Could be CSV or JSON");
 
         public RunCmdCommandLineParser()
         {
@@ -52,6 +59,10 @@ namespace PayrollConsole.Implementation
                     return outputFileArgument.Value;
                 case CommandLineEnum.OutputFormatFile:
                     return formatOutputFile.Value;
+                case CommandLineEnum.TaxFile:
+                    return taxFileArgument.Value;
+                case CommandLineEnum.TaxFileFormat:
+                    return formatTaxFile.Value;
             }
 
             throw new NotImplementedException();
@@ -61,8 +72,10 @@ namespace PayrollConsole.Implementation
         {
             parser.Add("-", "i", "i", inputFileArgument);
             parser.Add("-", "o", "o", outputFileArgument);
+            parser.Add("-", "t", "t", taxFileArgument);
             parser.Add("-", "if", "if", formatInputFile);
             parser.Add("-", "of", "of", formatOutputFile);
+            parser.Add("-", "tf", "tf", formatTaxFile);
 
             // parse arguemnts
             parser.Parse(args);
