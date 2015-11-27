@@ -13,6 +13,5 @@ namespace PayrollConsole.Interfaces
 
         void setParameters(string []args);
         string getParameter(CommandLineEnum parameter);
-        T getParameter<T>(CommandLineEnum parameter);
     }
 }

@@ -6,23 +6,37 @@ using System.Text;
 using System.Threading.Tasks;
 using PayrollConsole.Entities;
 using System.IO;
+using CsvHelper;
 
 namespace PayrollConsole.Implementation
 {
     public class CsvFormatHelper : IFormatHelper
     {
+        public string getAlias()
+        {
+            return "csv";
+        }
+
         public IEnumerable<InputFileParameter> LoadFile(string inputFile)
         {
+            IEnumerable<InputFileParameter> records;
             using (var fileReader = File.OpenText(inputFile))
             {
                 CsvHelper.CsvReader r = new CsvHelper.CsvReader(fileReader);
-                return r.GetRecords<InputFileParameter>();
+                records = r.GetRecords<InputFileParameter>().ToList();
             }
+
+            return records;
         }
 
-        public void WriteOutputFile(List<InputFileParameter> records, string outputFile)
+        public void WriteOutputFile<T>(IEnumerable<T> records, string outputFile)
         {
-            throw new NotImplementedException();
+            using (var fileWritter = File.CreateText(outputFile))
+            {
+                CsvHelper.CsvWriter w = new CsvHelper.CsvWriter(fileWritter);
+                w.WriteHeader<T>();
+                w.WriteRecords(records);
+            }
         }
     }
 }

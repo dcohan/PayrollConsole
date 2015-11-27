@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace PayrollConsole.Interfaces
 {
-    interface IProcess
+    public interface IProcess
     {
-        void Execute(string inputFormat, string outputFormat);
+        void Execute(string inputFormat, string outputFormat, string inputFile, string outputFile);
     }
 }

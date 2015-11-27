@@ -5,19 +5,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PayrollConsole.Entities;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace PayrollConsole.Implementation
 {
     public class JsonFormatHelper : IFormatHelper
     {
-        public IEnumerable<InputFileParameter> LoadFile(string inputFile)
+        public JsonFormatHelper()
         {
-            throw new NotImplementedException();
+            
         }
 
-        public void WriteOutputFile(List<InputFileParameter> records, string outputFile)
+        public string getAlias()
         {
-            throw new NotImplementedException();
+            return "json";
+        }
+
+        public IEnumerable<InputFileParameter> LoadFile(string inputFile)
+        {
+            using (var fileReader = File.OpenText(inputFile))
+            {
+                return JsonConvert.DeserializeObject<IEnumerable<InputFileParameter>>(fileReader.ReadToEnd());
+            }
+        }
+
+        public void WriteOutputFile<T>(IEnumerable<T> records, string outputFile)
+        {
+            using (var fileWriter = File.CreateText(outputFile))
+            {
+                fileWriter.WriteLine(JsonConvert.SerializeObject(records));
+            }
         }
     }
 }

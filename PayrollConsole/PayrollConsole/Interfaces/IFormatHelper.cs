@@ -11,6 +11,8 @@ namespace PayrollConsole.Interfaces
     {
         IEnumerable<InputFileParameter> LoadFile(string inputFile);
 
-        void WriteOutputFile(List<InputFileParameter> records, string outputFile);
+        void WriteOutputFile<T>(IEnumerable<T> records, string outputFile);
+
+        string getAlias();
     }
 }

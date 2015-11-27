@@ -19,20 +19,20 @@ namespace PayrollConsole.Implementation
         /// <summary>
         /// Path to the input file
         /// </summary>
-        private StringArgument inputFileArgument = new StringArgument("InputFile", "Path to the input file", "Path to the input file, could be relative or absolute.");
+        private StringArgument inputFileArgument = new StringArgument(CommandLineEnum.InputFile.ToString(), "Path to the input file", "Path to the input file, could be relative or absolute.");
         /// <summary>
         /// File Input format
         /// </summary>
-        private StringArgument formatInputFile = new StringArgument("FormatInputFile", "File format to process the input", "File format to process the input. Could be CSV or JSON");
+        private StringArgument formatInputFile = new StringArgument(CommandLineEnum.InputFormatFile.ToString(), "File format to process the input", "File format to process the input. Could be CSV or JSON");
 
         /// <summary>
         /// Path to the output file
         /// </summary>
-        private StringArgument outputFileArgument = new StringArgument("OutputFile", "Path to the output file", "Path to the output file, could be relative or absolute.");
+        private StringArgument outputFileArgument = new StringArgument(CommandLineEnum.OutputFile.ToString(), "Path to the output file", "Path to the output file, could be relative or absolute.");
         /// <summary>
         /// File Output format
         /// </summary>
-        private StringArgument formatOutputFile = new StringArgument("FormatOutputFile", "File format to generate the output", "File format to generate the output. Could be CSV or JSON");
+        private StringArgument formatOutputFile = new StringArgument(CommandLineEnum.OutputFormatFile.ToString(), "File format to generate the output", "File format to generate the output. Could be CSV or JSON");
 
 
         public RunCmdCommandLineParser()
@@ -42,20 +42,27 @@ namespace PayrollConsole.Implementation
 
         public string getParameter(CommandLineEnum parameter)
         {
-            throw new NotImplementedException();
-        }
+            switch(parameter)
+            {
+                case CommandLineEnum.InputFile:
+                    return inputFileArgument.Value;
+                case CommandLineEnum.InputFormatFile:
+                    return formatInputFile.Value;
+                case CommandLineEnum.OutputFile:
+                    return outputFileArgument.Value;
+                case CommandLineEnum.OutputFormatFile:
+                    return formatOutputFile.Value;
+            }
 
-        public T getParameter<T>(CommandLineEnum parameter)
-        {
             throw new NotImplementedException();
         }
 
         public void setParameters(string[] args)
         {
-            parser.Add("-", "i", "inputFile", inputFileArgument);
-            parser.Add("-", "o", "outputFile", inputFileArgument);
-            parser.Add("-", "if", "inFormat", inputFileArgument);
-            parser.Add("-", "of", "outFormat", inputFileArgument);
+            parser.Add("-", "i", "i", inputFileArgument);
+            parser.Add("-", "o", "o", outputFileArgument);
+            parser.Add("-", "if", "if", formatInputFile);
+            parser.Add("-", "of", "of", formatOutputFile);
 
             // parse arguemnts
             parser.Parse(args);
