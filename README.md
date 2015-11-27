@@ -22,6 +22,11 @@ but everything loaded in the application domain which implements IFormater inter
 		-t Tax File Path
 		-tf Tax File Format: currently supported json or csv
 ```
+**Examples**:
+```
+	In Folder data you will find some examples to execute (see all cmds inside of it)
+```
+
 **Settings**:
 The settings files are inside the file **PayrollConsole.exe.config**
 **Keys**:
