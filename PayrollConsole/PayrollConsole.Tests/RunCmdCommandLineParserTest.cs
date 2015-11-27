@@ -23,10 +23,10 @@ namespace PayrollConsole.Tests
         {
             var parser = getParser();
 
-            parser.validate(new string[]
+            Assert.IsFalse(parser.validate(new string[]
             {
-                 "/help"
-            });
+                 "/?"
+            }));
         }
 
         [TestMethod]

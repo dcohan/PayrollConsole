@@ -1,9 +1,5 @@
 ﻿using PayrollConsole.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using PayrollConsole.Entities;
 using Rug.Cmd;
 
@@ -80,8 +76,6 @@ namespace PayrollConsole.Implementation
             Parser.Add("-", "of", "of", FormatOutputFile);
             Parser.Add("-", "tf", "tf", FormatTaxFile);
 
-
-
             Parser.AboutText = "Payroll calculator is a tool to easy calculate your payroll!\\n If you have a custom provider, please attach your assembly with the implementataion of IFormatHelper, the program will load it automatically";
             Parser.CreditsText = "David Cohan";
             Parser.UsageText = "payrollConsole -i /path/to/input/file -o /path/to/output/file -if CSV - of JSON";
@@ -100,20 +94,26 @@ namespace PayrollConsole.Implementation
                     return false;
                 }
 
+                bool missing = false;
                 foreach (CommandLineEnum param in Enum.GetValues(typeof(CommandLineEnum)))
                 {
                     if (string.IsNullOrEmpty(getParameter(param)))
                     {
                         LogManager.Log("Missing parameter: " + param.ToString());
-                        return false;
+                        missing = true;
                     }
                 }
 
-                return true;
+                if (missing)
+                {
+                    LogManager.Log("Execute: PayrollConsole.exe /? to see what parameters are allowed");
+                    LogManager.Log("Execute: PayrollConsole.exe /?? for examples");
+                }
+
+                return !missing;
             }
-            catch(Exception ex)
+            catch
             {
-                LogManager.Log(ex, "An Error ocurred with the parameters");
                 return false;
             }
         }
