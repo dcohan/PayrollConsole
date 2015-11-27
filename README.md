@@ -9,6 +9,7 @@ but everything loaded in the application domain which implements IFormater inter
 -Injection Dependency: everything is replaceable, you don't need to worry about changing some tool, just implement the desired tool 
 
 #Run the application
+```
 Usage:
 	Data\PayrollConsole.exe -i input.csv -if csv -o output.csv -of csv -t taxrates.csv -tf csv
 Parameters:
@@ -27,6 +28,7 @@ Keys:
 	IncomeTaxFormula: formula used to calculate the monthly income tax
 	NetIncomeFormula: formula used to calculate how much the employee will earn in hand
 	SuperFormula: formula to determine the super on a monthly basis
+```
 
 Formula Parameters: you could use the input and tax files to execute the formula, every field of this input files could be overriten in the formula by closing them between [], example: [AnnualIncome] (nevermind uppper or lower case, the application is case insentitive)
 
